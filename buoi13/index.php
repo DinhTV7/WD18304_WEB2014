@@ -39,20 +39,34 @@ $users = $connect->query($sql_users)->fetchAll();
             <th>Phone</th>
             <th>Role</th>
             <th>Status</th>
+            <th>Action</th>
         </tr>
         <?php foreach ($users as $user) : ?>
             <tr>
                 <td><?php echo $user["id"] ?></td>
-                <td><?php echo $user["image"] ?></td>
+                <td>
+                    <?php // echo $user["image"] ?>
+                    <img width="100px" src="img/<?php echo !isset($user["image"]) || empty($user["image"]) ? 'default.jpg' : $user["image"] ?>" alt="">
+                </td>
                 <td><?php echo $user["name"] ?></td>
                 <td><?php echo $user["email"] ?></td>
                 <td><?php echo $user["phone"] ?></td>
                 <!-- <td><?php //echo $roleName[$user["role_id"]] ?></td> -->
                 <td><?php echo $user["name_role"] ?></td>
                 <td><?php echo $user["status"] == 0 ? 'Hoạt động' : 'Ngừng hoạt động' ?></td>
+                <td>
+                    <a href="edit_user.php?id=<?php echo $user['id'] ?>">Sửa</a>
+                    <a href="javascript:confirmDelete(<?php echo $user['id'] ?>)">Xóa</a>
+                </td>
             </tr>
         <?php endforeach; ?>
     </table>
 </body>
-
+<script>
+    function confirmDelete(id) {
+        if (confirm("Bạn có muốn xóa không?")) {
+            document.location = "delete_user.php?id=" + id;
+        }
+    }
+</script>
 </html>
